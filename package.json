@@ -1,7 +1,7 @@
 {
-  "name": "ts-pdf",
-  "version": "0.11.4",
-  "description": "PDF.js-based PDF viewer",
+  "name": "ts-pdf-styleMod",
+"version": "0.11.36",
+  "description": "PDF.js-based PDF viewer - modified styling",
   "type": "module",
   "module": "dist/ts-pdf.esm.js",
   "types": "dist/ts-pdf.d.ts",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yermolim/ts-pdf.git"
+    "url": "git+https://github.com/nufanDK/ts-pdf.git"
   },
   "keywords": [
     "web",
@@ -29,7 +29,7 @@
     "pdf-viewer",
     "pdfjs"
   ],
-  "author": "Volodymyr Yermolenko <yermolim@gmail.com> (https://github.com/yermolim)",
+  "author": "forked from: Volodymyr Yermolenko <yermolim@gmail.com> (https://github.com/yermolim)",
   "license": "AGPL",
   "bugs": {
     "url": "https://github.com/yermolim/ts-pdf/issues"
@@ -69,7 +69,7 @@
     "rollup-plugin-node-externals": "^6.1.2",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.3"
   },
   "dependencies": {
     "crypto-es": "^2.1.0",

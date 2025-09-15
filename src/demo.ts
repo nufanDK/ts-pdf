@@ -9,7 +9,9 @@ async function run(): Promise<void> {
     containerSelector: "#pdf-main-container", 
     workerSource: "assets/pdf.worker.min.js",
     userName: "yermolim",
-    fileButtons: ["open", "close", "save"],
+    fileButtons: ["open", "close"],
+    viewControlButtons: ["previewer"],
+    disabledModes: ["hand", "comparison"],
     comparableFileButtons: ["open", "close"],
     annotChangeCallback: (detail: AnnotEventDetail) =>  {
       if (detail.type === "focus" 
@@ -22,6 +24,7 @@ async function run(): Promise<void> {
     customStampChangeCallback: (detail: CustomStampEventDetail) => {
       // console.log(JSON.stringify(detail.stamp));
     },
+    autoHidePanels: false,
   };
   const viewer = new TsPdfViewer(options);
 

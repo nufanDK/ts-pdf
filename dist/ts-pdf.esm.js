@@ -65,6 +65,44 @@ const mainHtml = `
           <img src="${Icons.icon_sidebar}"/>
         </div> 
       </div>
+      <div class="subpanel panel-item">
+          <div id="paginator" class="subpanel panel-item">
+            <div id="paginator-prev" class="panel-button">
+              <img src="${Icons.icon_arrow_up}"/>
+            </div>
+            <div id="paginator-next" class="panel-button">
+              <img src="${Icons.icon_arrow_down}"/>
+            </div>
+            <input id="paginator-input" type="text">
+            <span>&nbsp/&nbsp</span>
+            <span id="paginator-total">0</span>
+          </div>
+          <div id="separatorRotator" class="panel-v-separator panel-item"></div>
+          <div id="rotator" class="subpanel panel-item">
+            <div id="rotate-counter-clockwise" class="panel-button">
+              <img src="${Icons.icon_counter_clockwise}"/>
+            </div>
+            <div id="rotate-clockwise" class="panel-button">
+              <img src="${Icons.icon_clockwise}"/>
+            </div>
+          </div>
+          <div id="separatorZoom" class="panel-v-separator panel-item"></div>      
+          <!-- ZOOMER PART !-->
+          <div id="zoomer" class="subpanel panel-item">
+            <div id="zoom-out" class="panel-button">
+              <img src="${Icons.icon_minus}"/>
+            </div>
+            <div id="zoom-in" class="panel-button">
+              <img src="${Icons.icon_plus}"/>
+            </div>
+            <div id="zoom-fit-viewer" class="panel-button">
+              <img src="${Icons.icon_fit_viewer}"/>
+            </div>
+            <div id="zoom-fit-page" class="panel-button">
+              <img src="${Icons.icon_fit_page}"/>
+            </div>
+          </div>
+      </div>
       <div id="modes" class="subpanel panel-item">
         <div id="button-mode-text" class="panel-button panel-item">
           <img src="${Icons.icon_caret}"/>
@@ -73,12 +111,12 @@ const mainHtml = `
           <img src="${Icons.icon_hand}"/>
         </div> 
         <div id="button-mode-annotation" class="panel-button panel-item">
-          <img src="${Icons.icon_popup}"/>
+          <img src="${Icons.icon_pen}"/>
         </div> 
         <div id="button-mode-comparison" class="panel-button panel-item">
           <img src="${Icons.icon_compare}"/>
         </div> 
-        <div class="panel-v-separator margin-s-5 panel-item"></div>
+        <div id="panel-v-separator-opensaveclose" class="panel-v-separator margin-s-5 panel-item"></div>
         <div id="button-open-file" class="panel-button panel-item">
           <img src="${Icons.icon_load}"/>
         </div> 
@@ -90,44 +128,48 @@ const mainHtml = `
         </div> 
       </div>
     </div>
+
+<!-- //NUFANDK: Previous bottom panel, with navigation controls -- moved to toppanel
     <div id="bottom-panel">
-      <div id="paginator" class="subpanel panel-item">
-        <div id="paginator-prev" class="panel-button">
-          <img src="${Icons.icon_arrow_up}"/>
-        </div>
-        <div id="paginator-next" class="panel-button">
-          <img src="${Icons.icon_arrow_down}"/>
-        </div>
-        <input id="paginator-input" type="text">
-        <span>&nbsp/&nbsp</span>
-        <span id="paginator-total">0</span>
-      </div>
-      <div class="panel-v-separator panel-item"></div>
-      <div id="rotator" class="subpanel panel-item">
-        <div id="rotate-counter-clockwise" class="panel-button">
-          <img src="${Icons.icon_counter_clockwise}"/>
-        </div>
-        <div id="rotate-clockwise" class="panel-button">
-          <img src="${Icons.icon_clockwise}"/>
-        </div>
-      </div>
-      <div class="panel-v-separator panel-item"></div>
-      <div id="zoomer" class="subpanel panel-item">
-        <div id="zoom-out" class="panel-button">
-          <img src="${Icons.icon_minus}"/>
-        </div>
-        <div id="zoom-in" class="panel-button">
-          <img src="${Icons.icon_plus}"/>
-        </div>
-        <div id="zoom-fit-viewer" class="panel-button">
-          <img src="${Icons.icon_fit_viewer}"/>
-        </div>
-        <div id="zoom-fit-page" class="panel-button">
-          <img src="${Icons.icon_fit_page}"/>
-        </div>
-      </div>
+        <div id="paginator" class="subpanel panel-item">
+            <div id="paginator-prev" class="panel-button">
+              <img src="${Icons.icon_arrow_up}"/>
+            </div>
+            <div id="paginator-next" class="panel-button">
+              <img src="${Icons.icon_arrow_down}"/>
+            </div>
+            <input id="paginator-input" type="text">
+            <span>&nbsp/&nbsp</span>
+            <span id="paginator-total">0</span>
+          </div>
+          <div id="separatorRotator" class="panel-v-separator panel-item"></div>
+          <div id="rotator" class="subpanel panel-item">
+            <div id="rotate-counter-clockwise" class="panel-button">
+              <img src="${Icons.icon_counter_clockwise}"/>
+            </div>
+            <div id="rotate-clockwise" class="panel-button">
+              <img src="${Icons.icon_clockwise}"/>
+            </div>
+          </div>
+          <div id="separatorZoom" class="panel-v-separator panel-item"></div>      
+          <div id="zoomer" class="subpanel panel-item">
+            <div id="zoom-out" class="panel-button">
+              <img src="${Icons.icon_minus}"/>
+            </div>
+            <div id="zoom-in" class="panel-button">
+              <img src="${Icons.icon_plus}"/>
+            </div>
+            <div id="zoom-fit-viewer" class="panel-button">
+              <img src="${Icons.icon_fit_viewer}"/>
+            </div>
+            <div id="zoom-fit-page" class="panel-button">
+              <img src="${Icons.icon_fit_page}"/>
+            </div>
+          </div>
     </div>
-    <div id="command-panel">
+-->
+    
+    <div id="command-panel" class="hidden">
       <div class="command-panel-row">
         <div id="button-command-comparison-close" 
           class="panel-button command-panel-subitem accent">
@@ -143,6 +185,8 @@ const mainHtml = `
         </div>
       </div>      
     </div>
+    
+
     <div id="annotation-panel">
       <div class="annotation-panel-row">
         <div id="button-annotation-edit-text" 
@@ -158,6 +202,7 @@ const mainHtml = `
           <img src="${Icons.icon_pointer}"/>
         </div> 
       </div>
+<!-- STAMP ANNOTATION TOOL
       <div class="annotation-panel-row">
         <div id="button-annotation-stamp-undo" 
           class="panel-button annotation-panel-subitem button-annotation-undo">
@@ -176,6 +221,7 @@ const mainHtml = `
           <img src="${Icons.icon_stamp}"/>
         </div> 
       </div>
+!-->
       <div class="annotation-panel-row">
         <div id="button-annotation-pen-undo" 
           class="panel-button annotation-panel-subitem button-annotation-undo">
@@ -232,6 +278,7 @@ const mainHtml = `
       </div>
     </div>
 
+
     <div id="focused-annotation-panel">
       <p id="focused-annotation-author" class="line-clamp"></p>
       <p id="focused-annotation-date" class="line-clamp"></p>
@@ -266,8 +313,8 @@ const styles = `
   #bottom-panel {
     left: calc(50% - 200px);
     width: 400px;
-  }
-  .compact #bottom-panel {  
+    }
+    .compact #bottom-panel {  
     left: calc(50% - 160px);  
     width: 320px;
   }
@@ -291,10 +338,23 @@ const styles = `
   #paginator-total {
     margin: 4px;
   }
+  
+  .abs-full-size-overlay
+  {
+    border-radius: var(--${appName}-main-border-radius);
+  }
 
   .page-container {
     margin: 10px auto;
   }  
+  
+  .spinner div {
+    border-radius: 20px;
+  }
+  
+  .spinner-container {
+    border-radius: 20px;
+  }
   
   .page-text {
     position: absolute;
@@ -2532,8 +2592,8 @@ class BgDataParser {
             return result;
         });
     }
-    getValueTypeAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    getValueTypeAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("get-value-type-at", [start, skipEmpty]);
             return result;
         });
@@ -2544,122 +2604,122 @@ class BgDataParser {
             return result;
         });
     }
-    findCharIndexAsync(charCode, direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findCharIndexAsync(charCode_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (charCode, direction = true, start) {
             const result = yield this.execCommandAsync("find-char-index", [charCode, direction, start]);
             return result;
         });
     }
-    findNewLineIndexAsync(direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findNewLineIndexAsync() {
+        return __awaiter$1l(this, arguments, void 0, function* (direction = true, start) {
             const result = yield this.execCommandAsync("find-new-line-index", [direction, start]);
             return result;
         });
     }
-    findSpaceIndexAsync(direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findSpaceIndexAsync() {
+        return __awaiter$1l(this, arguments, void 0, function* (direction = true, start) {
             const result = yield this.execCommandAsync("find-space-index", [direction, start]);
             return result;
         });
     }
-    findNonSpaceIndexAsync(direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findNonSpaceIndexAsync() {
+        return __awaiter$1l(this, arguments, void 0, function* (direction = true, start) {
             const result = yield this.execCommandAsync("find-non-space-index", [direction, start]);
             return result;
         });
     }
-    findDelimiterIndexAsync(direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findDelimiterIndexAsync() {
+        return __awaiter$1l(this, arguments, void 0, function* (direction = true, start) {
             const result = yield this.execCommandAsync("find-delimiter-index", [direction, start]);
             return result;
         });
     }
-    findNonDelimiterIndexAsync(direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findNonDelimiterIndexAsync() {
+        return __awaiter$1l(this, arguments, void 0, function* (direction = true, start) {
             const result = yield this.execCommandAsync("find-non-delimiter-index", [direction, start]);
             return result;
         });
     }
-    findRegularIndexAsync(direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findRegularIndexAsync() {
+        return __awaiter$1l(this, arguments, void 0, function* (direction = true, start) {
             const result = yield this.execCommandAsync("find-regular-index", [direction, start]);
             return result;
         });
     }
-    findIrregularIndexAsync(direction = true, start) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    findIrregularIndexAsync() {
+        return __awaiter$1l(this, arguments, void 0, function* (direction = true, start) {
             const result = yield this.execCommandAsync("find-irregular-index", [direction, start]);
             return result;
         });
     }
-    getIndirectObjectBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    getIndirectObjectBoundsAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("get-indirect-object-bounds", [start, skipEmpty]);
             return result;
         });
     }
-    getXrefTableBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    getXrefTableBoundsAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("get-xref-table-bounds", [start, skipEmpty]);
             return result;
         });
     }
-    getDictBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    getDictBoundsAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("get-dict-bounds", [start, skipEmpty]);
             return result;
         });
     }
-    getArrayBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    getArrayBoundsAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("get-array-bounds", [start, skipEmpty]);
             return result;
         });
     }
-    getHexBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    getHexBoundsAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("get-hex-bounds", [start, skipEmpty]);
             return result;
         });
     }
-    getLiteralBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    getLiteralBoundsAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("get-literal-bounds", [start, skipEmpty]);
             return result;
         });
     }
-    parseNumberAtAsync(start, float = false, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    parseNumberAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, float = false, skipEmpty = true) {
             const result = yield this.execCommandAsync("parse-number", [start, float, skipEmpty]);
             return result;
         });
     }
-    parseNameAtAsync(start, includeSlash = true, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    parseNameAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, includeSlash = true, skipEmpty = true) {
             const result = yield this.execCommandAsync("parse-name", [start, includeSlash, skipEmpty]);
             return result;
         });
     }
-    parseStringAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    parseStringAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("parse-string", [start, skipEmpty]);
             return result;
         });
     }
-    parseBoolAtAsync(start, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    parseBoolAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, skipEmpty = true) {
             const result = yield this.execCommandAsync("parse-bool", [start, skipEmpty]);
             return result;
         });
     }
-    parseNumberArrayAtAsync(start, float = true, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    parseNumberArrayAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, float = true, skipEmpty = true) {
             const result = yield this.execCommandAsync("parse-number-array", [start, float, skipEmpty]);
             return result;
         });
     }
-    parseNameArrayAtAsync(start, includeSlash = true, skipEmpty = true) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    parseNameArrayAtAsync(start_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (start, includeSlash = true, skipEmpty = true) {
             const result = yield this.execCommandAsync("parse-name-array", [start, includeSlash, skipEmpty]);
             return result;
         });
@@ -2743,8 +2803,8 @@ class BgDataParser {
             return worker;
         });
     }
-    execCommandAsync(commandName, commandArgs = []) {
-        return __awaiter$1l(this, void 0, void 0, function* () {
+    execCommandAsync(commandName_1) {
+        return __awaiter$1l(this, arguments, void 0, function* (commandName, commandArgs = []) {
             this._commandsInProgress++;
             const worker = yield this.getWorkerAsync();
             const commandId = UUID.getRandomUuid();
@@ -3061,8 +3121,8 @@ class SyncDataParser {
             return this.getCharCode(index) === code;
         });
     }
-    getValueTypeAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    getValueTypeAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3143,8 +3203,8 @@ class SyncDataParser {
         });
     }
     findSubarrayIndexAsync(sub, options) {
-        var _a, _b, _c;
         return __awaiter$1k(this, void 0, void 0, function* () {
+            var _a, _b, _c;
             const arr = this._data;
             if (!(sub === null || sub === void 0 ? void 0 : sub.length)) {
                 return null;
@@ -3176,8 +3236,8 @@ class SyncDataParser {
             return null;
         });
     }
-    findCharIndexAsync(charCode, direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findCharIndexAsync(charCode_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (charCode, direction = true, start) {
             const arr = this._data;
             let i = isNaN(start)
                 ? direction
@@ -3201,8 +3261,8 @@ class SyncDataParser {
             return -1;
         });
     }
-    findNewLineIndexAsync(direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findNewLineIndexAsync() {
+        return __awaiter$1k(this, arguments, void 0, function* (direction = true, start) {
             let lineBreakIndex;
             const arr = this._data;
             let i = isNaN(start)
@@ -3245,8 +3305,8 @@ class SyncDataParser {
             }
         });
     }
-    findSpaceIndexAsync(direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findSpaceIndexAsync() {
+        return __awaiter$1k(this, arguments, void 0, function* (direction = true, start) {
             const arr = this._data;
             let i = isNaN(start)
                 ? direction
@@ -3270,8 +3330,8 @@ class SyncDataParser {
             return -1;
         });
     }
-    findNonSpaceIndexAsync(direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findNonSpaceIndexAsync() {
+        return __awaiter$1k(this, arguments, void 0, function* (direction = true, start) {
             const arr = this._data;
             let i = isNaN(start)
                 ? direction
@@ -3295,8 +3355,8 @@ class SyncDataParser {
             return -1;
         });
     }
-    findDelimiterIndexAsync(direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findDelimiterIndexAsync() {
+        return __awaiter$1k(this, arguments, void 0, function* (direction = true, start) {
             const arr = this._data;
             let i = isNaN(start)
                 ? direction
@@ -3320,8 +3380,8 @@ class SyncDataParser {
             return -1;
         });
     }
-    findNonDelimiterIndexAsync(direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findNonDelimiterIndexAsync() {
+        return __awaiter$1k(this, arguments, void 0, function* (direction = true, start) {
             const arr = this._data;
             let i = isNaN(start)
                 ? direction
@@ -3345,8 +3405,8 @@ class SyncDataParser {
             return -1;
         });
     }
-    findRegularIndexAsync(direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findRegularIndexAsync() {
+        return __awaiter$1k(this, arguments, void 0, function* (direction = true, start) {
             const arr = this._data;
             let i = isNaN(start)
                 ? direction
@@ -3370,8 +3430,8 @@ class SyncDataParser {
             return -1;
         });
     }
-    findIrregularIndexAsync(direction = true, start) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    findIrregularIndexAsync() {
+        return __awaiter$1k(this, arguments, void 0, function* (direction = true, start) {
             const arr = this._data;
             let i = isNaN(start)
                 ? direction
@@ -3395,8 +3455,8 @@ class SyncDataParser {
             return -1;
         });
     }
-    getIndirectObjectBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    getIndirectObjectBoundsAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3431,8 +3491,8 @@ class SyncDataParser {
             };
         });
     }
-    getXrefTableBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    getXrefTableBoundsAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3463,8 +3523,8 @@ class SyncDataParser {
             };
         });
     }
-    getDictBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    getDictBoundsAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3527,8 +3587,8 @@ class SyncDataParser {
             };
         });
     }
-    getArrayBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    getArrayBoundsAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3554,8 +3614,8 @@ class SyncDataParser {
             return { start, end: arrayEnd };
         });
     }
-    getHexBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    getHexBoundsAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3569,8 +3629,8 @@ class SyncDataParser {
             return { start, end };
         });
     }
-    getLiteralBoundsAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    getLiteralBoundsAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3604,8 +3664,8 @@ class SyncDataParser {
             return { start, end: i - 1 };
         });
     }
-    parseNumberAtAsync(start, float = false, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    parseNumberAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, float = false, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3633,8 +3693,8 @@ class SyncDataParser {
                 : null;
         });
     }
-    parseNameAtAsync(start, includeSlash = true, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    parseNameAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, includeSlash = true, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3655,8 +3715,8 @@ class SyncDataParser {
                 : null;
         });
     }
-    parseStringAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    parseStringAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3675,8 +3735,8 @@ class SyncDataParser {
                 : null;
         });
     }
-    parseBoolAtAsync(start, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    parseBoolAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield this.skipEmptyAsync(start);
             }
@@ -3701,8 +3761,8 @@ class SyncDataParser {
             return null;
         });
     }
-    parseNumberArrayAtAsync(start, float = true, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    parseNumberArrayAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, float = true, skipEmpty = true) {
             const arrayBounds = yield this.getArrayBoundsAtAsync(start, skipEmpty);
             if (!arrayBounds) {
                 return null;
@@ -3721,8 +3781,8 @@ class SyncDataParser {
             return { value: numbers, start: arrayBounds.start, end: arrayBounds.end };
         });
     }
-    parseNameArrayAtAsync(start, includeSlash = true, skipEmpty = true) {
-        return __awaiter$1k(this, void 0, void 0, function* () {
+    parseNameArrayAtAsync(start_1) {
+        return __awaiter$1k(this, arguments, void 0, function* (start, includeSlash = true, skipEmpty = true) {
             const arrayBounds = yield this.getArrayBoundsAtAsync(start, skipEmpty);
             if (!arrayBounds) {
                 return null;
@@ -3752,8 +3812,8 @@ class SyncDataParser {
         });
     }
     parseDictPropertyByNameAsync(propName, bounds) {
-        var _a, _b;
         return __awaiter$1k(this, void 0, void 0, function* () {
+            var _a, _b;
             const arr = this._data;
             if (!(propName === null || propName === void 0 ? void 0 : propName.length)) {
                 return null;
@@ -4427,8 +4487,8 @@ class ObjectId {
         this.id = id !== null && id !== void 0 ? id : 0;
         this.generation = generation !== null && generation !== void 0 ? generation : 0;
     }
-    static parseAsync(parser, start, skipEmpty = true) {
-        return __awaiter$1j(this, void 0, void 0, function* () {
+    static parseAsync(parser_1, start_1) {
+        return __awaiter$1j(this, arguments, void 0, function* (parser, start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield parser.findRegularIndexAsync(true, start);
             }
@@ -4450,8 +4510,8 @@ class ObjectId {
             };
         });
     }
-    static parseRefAsync(parser, start, skipEmpty = true) {
-        return __awaiter$1j(this, void 0, void 0, function* () {
+    static parseRefAsync(parser_1, start_1) {
+        return __awaiter$1j(this, arguments, void 0, function* (parser, start, skipEmpty = true) {
             const id = yield ObjectId.parseAsync(parser, start, skipEmpty);
             if (!id) {
                 return null;
@@ -4468,8 +4528,8 @@ class ObjectId {
             };
         });
     }
-    static parseRefArrayAsync(parser, start, skipEmpty = true) {
-        return __awaiter$1j(this, void 0, void 0, function* () {
+    static parseRefArrayAsync(parser_1, start_1) {
+        return __awaiter$1j(this, arguments, void 0, function* (parser, start, skipEmpty = true) {
             const arrayBounds = yield parser.getArrayBoundsAtAsync(start, skipEmpty);
             if (!arrayBounds) {
                 return null;
@@ -4523,8 +4583,8 @@ class DateString {
         this._source = source;
         this._date = new Date(date);
     }
-    static parseAsync(parser, start, cryptInfo = null, skipEmpty = true) {
-        return __awaiter$1i(this, void 0, void 0, function* () {
+    static parseAsync(parser_1, start_1) {
+        return __awaiter$1i(this, arguments, void 0, function* (parser, start, cryptInfo = null, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield parser.skipEmptyAsync(start);
             }
@@ -4604,8 +4664,8 @@ class HexString {
         this._hex = hex;
         this._bytes = bytes;
     }
-    static parseAsync(parser, start, cryptInfo = null, skipEmpty = true) {
-        return __awaiter$1h(this, void 0, void 0, function* () {
+    static parseAsync(parser_1, start_1) {
+        return __awaiter$1h(this, arguments, void 0, function* (parser, start, cryptInfo = null, skipEmpty = true) {
             const bounds = yield parser.getHexBoundsAtAsync(start, skipEmpty);
             if (!bounds) {
                 return null;
@@ -4618,8 +4678,8 @@ class HexString {
             return { value: hex, start: bounds.start, end: bounds.end };
         });
     }
-    static parseArrayAsync(parser, start, cryptInfo = null, skipEmpty = true) {
-        return __awaiter$1h(this, void 0, void 0, function* () {
+    static parseArrayAsync(parser_1, start_1) {
+        return __awaiter$1h(this, arguments, void 0, function* (parser, start, cryptInfo = null, skipEmpty = true) {
             const arrayBounds = yield parser.getArrayBoundsAtAsync(start, skipEmpty);
             if (!arrayBounds) {
                 return null;
@@ -4684,8 +4744,8 @@ class LiteralString {
         this._literal = literal;
         this._bytes = bytes;
     }
-    static parseAsync(parser, start, cryptInfo = null, skipEmpty = true) {
-        return __awaiter$1g(this, void 0, void 0, function* () {
+    static parseAsync(parser_1, start_1) {
+        return __awaiter$1g(this, arguments, void 0, function* (parser, start, cryptInfo = null, skipEmpty = true) {
             const bounds = yield parser.getLiteralBoundsAtAsync(start, skipEmpty);
             if (!bounds) {
                 return;
@@ -4698,8 +4758,8 @@ class LiteralString {
             return { value: result, start: bounds.start, end: bounds.end };
         });
     }
-    static parseArrayAsync(parser, start, cryptInfo = null, skipEmpty = true) {
-        return __awaiter$1g(this, void 0, void 0, function* () {
+    static parseArrayAsync(parser_1, start_1) {
+        return __awaiter$1g(this, arguments, void 0, function* (parser, start, cryptInfo = null, skipEmpty = true) {
             const arrayBounds = yield parser.getArrayBoundsAtAsync(start, skipEmpty);
             if (!arrayBounds) {
                 return null;
@@ -4895,8 +4955,8 @@ class PdfObject {
         };
     }
     static getDataParserAsync(data) {
-        var _a;
         return __awaiter$1f(this, void 0, void 0, function* () {
+            var _a;
             const parser = (_a = BgDataParser.tryGetParser(data.slice())) !== null && _a !== void 0 ? _a : SyncDataParser.tryGetParser(data);
             return parser;
         });
@@ -4954,26 +5014,26 @@ class PdfObject {
             return this.setParsedProp(propName, parsed);
         });
     }
-    parseNamePropAsync(propName, parser, index, includeSlash = true) {
-        return __awaiter$1f(this, void 0, void 0, function* () {
+    parseNamePropAsync(propName_1, parser_1, index_1) {
+        return __awaiter$1f(this, arguments, void 0, function* (propName, parser, index, includeSlash = true) {
             const parsed = yield parser.parseNameAtAsync(index, includeSlash);
             return this.setParsedProp(propName, parsed);
         });
     }
-    parseNameArrayPropAsync(propName, parser, index, includeSlash = true) {
-        return __awaiter$1f(this, void 0, void 0, function* () {
+    parseNameArrayPropAsync(propName_1, parser_1, index_1) {
+        return __awaiter$1f(this, arguments, void 0, function* (propName, parser, index, includeSlash = true) {
             const parsed = yield parser.parseNameArrayAtAsync(index, includeSlash);
             return this.setParsedProp(propName, parsed);
         });
     }
-    parseNumberPropAsync(propName, parser, index, float = true) {
-        return __awaiter$1f(this, void 0, void 0, function* () {
+    parseNumberPropAsync(propName_1, parser_1, index_1) {
+        return __awaiter$1f(this, arguments, void 0, function* (propName, parser, index, float = true) {
             const parsed = yield parser.parseNumberAtAsync(index, float);
             return this.setParsedProp(propName, parsed);
         });
     }
-    parseNumberArrayPropAsync(propName, parser, index, float = true) {
-        return __awaiter$1f(this, void 0, void 0, function* () {
+    parseNumberArrayPropAsync(propName_1, parser_1, index_1) {
+        return __awaiter$1f(this, arguments, void 0, function* (propName, parser, index, float = true) {
             const parsed = yield parser.parseNumberArrayAtAsync(index, float);
             return this.setParsedProp(propName, parsed);
         });
@@ -5032,8 +5092,8 @@ class PdfDict extends PdfObject {
         return new Uint8Array(bytes);
     }
     parsePropsAsync(parseInfo) {
-        var _a;
         return __awaiter$1e(this, void 0, void 0, function* () {
+            var _a;
             if (!parseInfo) {
                 throw new Error("Parse info is empty");
             }
@@ -5110,8 +5170,8 @@ class DecodeParamsDict extends PdfDict {
             }
         });
     }
-    static parseArrayAsync(parser, start, cryptInfo = null, skipEmpty = true) {
-        return __awaiter$1d(this, void 0, void 0, function* () {
+    static parseArrayAsync(parser_1, start_1) {
+        return __awaiter$1d(this, arguments, void 0, function* (parser, start, cryptInfo = null, skipEmpty = true) {
             const arrayBounds = yield parser.getArrayBoundsAtAsync(start, skipEmpty);
             if (!arrayBounds) {
                 return null;
@@ -5992,8 +6052,8 @@ class PdfStream extends PdfObject {
         this.streamData = bytes;
     }
     parsePropsAsync(parseInfo) {
-        var _a, _b;
         return __awaiter$1c(this, void 0, void 0, function* () {
+            var _a, _b;
             if (!parseInfo) {
                 throw new Error("Parse info is empty");
             }
@@ -6240,8 +6300,8 @@ class TrailerStream extends PdfStream {
         const _super = Object.create(null, {
             parsePropsAsync: { get: () => super.parsePropsAsync }
         });
-        var _a;
         return __awaiter$1b(this, void 0, void 0, function* () {
+            var _a;
             yield _super.parsePropsAsync.call(this, parseInfo);
             const { parser, bounds } = parseInfo;
             const start = bounds.contentStart || bounds.start;
@@ -6515,8 +6575,8 @@ class IndexedColorSpaceArray {
         this.highestValue = highestValue;
         this.lookupArray = lookupArray;
     }
-    static parseAsync(parseInfo, skipEmpty = true) {
-        return __awaiter$18(this, void 0, void 0, function* () {
+    static parseAsync(parseInfo_1) {
+        return __awaiter$18(this, arguments, void 0, function* (parseInfo, skipEmpty = true) {
             const { parser, bounds, cryptInfo } = parseInfo;
             let i;
             if (skipEmpty) {
@@ -7272,8 +7332,8 @@ class UnicodeCmapStream extends PdfStream {
         return false;
     }
     parseCodeRangesAsync(parser) {
-        var _a, _b;
         return __awaiter$15(this, void 0, void 0, function* () {
+            var _a, _b;
             let i = 0;
             const codeRangeStart = (_a = (yield parser.findSubarrayIndexAsync(keywordCodes.CMAP_BEGIN_CODE_RANGE, { closedOnly: true }))) === null || _a === void 0 ? void 0 : _a.end;
             if (!codeRangeStart) {
@@ -7295,8 +7355,8 @@ class UnicodeCmapStream extends PdfStream {
         });
     }
     parseCharMapAsync(parser, decoder) {
-        var _a, _b;
         return __awaiter$15(this, void 0, void 0, function* () {
+            var _a, _b;
             let i = 0;
             while (true) {
                 const charMapStart = (_a = (yield parser.findSubarrayIndexAsync(keywordCodes.CMAP_BEGIN_CHAR, { closedOnly: true, minIndex: i }))) === null || _a === void 0 ? void 0 : _a.end;
@@ -7316,8 +7376,8 @@ class UnicodeCmapStream extends PdfStream {
         });
     }
     parseCharRangesMapAsync(parser, decoder) {
-        var _a, _b;
         return __awaiter$15(this, void 0, void 0, function* () {
+            var _a, _b;
             let i = 0;
             while (true) {
                 const rangeMapStart = (_a = (yield parser.findSubarrayIndexAsync(keywordCodes.CMAP_BEGIN_RANGE, { closedOnly: true, minIndex: i }))) === null || _a === void 0 ? void 0 : _a.end;
@@ -14728,8 +14788,8 @@ class BorderStyleDict extends PdfDict {
         const _super = Object.create(null, {
             parsePropsAsync: { get: () => super.parsePropsAsync }
         });
-        var _a, _b;
         return __awaiter$U(this, void 0, void 0, function* () {
+            var _a, _b;
             yield _super.parsePropsAsync.call(this, parseInfo);
             const { parser, bounds } = parseInfo;
             const start = bounds.contentStart || bounds.start;
@@ -15147,8 +15207,8 @@ class BorderArray {
         this.dash = dash !== null && dash !== void 0 ? dash : 3;
         this.gap = gap !== null && gap !== void 0 ? gap : 0;
     }
-    static parseAsync(parser, start, skipEmpty = true) {
-        return __awaiter$R(this, void 0, void 0, function* () {
+    static parseAsync(parser_1, start_1) {
+        return __awaiter$R(this, arguments, void 0, function* (parser, start, skipEmpty = true) {
             if (skipEmpty) {
                 start = yield parser.findNonSpaceIndexAsync(true, start);
             }
@@ -15584,9 +15644,9 @@ class AnnotationDict extends PdfDict {
             matrix: (_e = this.apStream) === null || _e === void 0 ? void 0 : _e.Matrix,
         };
     }
-    setTextContentAsync(text, undoable = true) {
-        var _a;
-        return __awaiter$Q(this, void 0, void 0, function* () {
+    setTextContentAsync(text_1) {
+        return __awaiter$Q(this, arguments, void 0, function* (text, undoable = true) {
+            var _a;
             const dict = this.getProxy();
             const oldText = (_a = dict.Contents) === null || _a === void 0 ? void 0 : _a.literal;
             if (!text) {
@@ -15610,8 +15670,8 @@ class AnnotationDict extends PdfDict {
         const _super = Object.create(null, {
             parsePropsAsync: { get: () => super.parsePropsAsync }
         });
-        var _a;
         return __awaiter$Q(this, void 0, void 0, function* () {
+            var _a;
             yield _super.parsePropsAsync.call(this, parseInfo);
             const { parser, bounds } = parseInfo;
             const start = bounds.contentStart || bounds.start;
@@ -15943,8 +16003,8 @@ class AnnotationDict extends PdfDict {
         const { min: newRectMin, max: newRectMax } = Vec2.minMax(bBox.ll, bBox.lr, bBox.ur, bBox.ul);
         this.Rect = [newRectMin.x, newRectMin.y, newRectMax.x, newRectMax.y];
     }
-    applyCommonTransformAsync(matrix, undoable = true) {
-        return __awaiter$Q(this, void 0, void 0, function* () {
+    applyCommonTransformAsync(matrix_1) {
+        return __awaiter$Q(this, arguments, void 0, function* (matrix, undoable = true) {
             const dict = this.getProxy();
             dict.applyRectTransform(matrix);
             const stream = dict.apStream;
@@ -16104,8 +16164,8 @@ class AnnotationDict extends PdfDict {
         return [...this.renderScaleHandles(), this.renderRotationHandle()];
     }
     updateRenderAsync() {
-        var _a;
         return __awaiter$Q(this, void 0, void 0, function* () {
+            var _a;
             if (!this._renderedControls) {
                 return;
             }
@@ -16316,8 +16376,8 @@ class MarkupAnnotation extends AnnotationDict {
         return color;
     }
     updateTextDataAsync(options) {
-        var _a;
         return __awaiter$P(this, void 0, void 0, function* () {
+            var _a;
             const text = (_a = this.Contents) === null || _a === void 0 ? void 0 : _a.literal;
             const textData = yield TextData.buildAsync(text, options);
             this._textData = textData;
@@ -17570,8 +17630,8 @@ class EncryptionDict extends PdfDict {
         const _super = Object.create(null, {
             parsePropsAsync: { get: () => super.parsePropsAsync }
         });
-        var _a, _b;
         return __awaiter$L(this, void 0, void 0, function* () {
+            var _a, _b;
             yield _super.parsePropsAsync.call(this, parseInfo);
             const { parser, bounds } = parseInfo;
             const start = bounds.contentStart || bounds.start;
@@ -17968,8 +18028,8 @@ class XrefParser {
         this._dataParser = parser;
     }
     getPdfVersionAsync() {
-        var _a;
         return __awaiter$I(this, void 0, void 0, function* () {
+            var _a;
             const i = yield this._dataParser.findSubarrayIndexAsync(keywordCodes.VERSION);
             if (!i) {
                 return null;
@@ -21990,8 +22050,8 @@ class InkAnnotation extends MarkupAnnotation {
         const _super = Object.create(null, {
             parsePropsAsync: { get: () => super.parsePropsAsync }
         });
-        var _a;
         return __awaiter$C(this, void 0, void 0, function* () {
+            var _a;
             yield _super.parsePropsAsync.call(this, parseInfo);
             const { parser, bounds } = parseInfo;
             const start = bounds.contentStart || bounds.start;
@@ -22078,9 +22138,9 @@ class InkAnnotation extends MarkupAnnotation {
         apStream.setTextStreamData(streamTextData);
         this.apStream = apStream;
     }
-    applyCommonTransformAsync(matrix, undoable = true) {
-        var _a, _b, _c, _d;
-        return __awaiter$C(this, void 0, void 0, function* () {
+    applyCommonTransformAsync(matrix_1) {
+        return __awaiter$C(this, arguments, void 0, function* (matrix, undoable = true) {
+            var _a, _b, _c, _d;
             const dict = this.getProxy();
             let x;
             let y;
@@ -22430,8 +22490,8 @@ class SquareAnnotation extends GeometricAnnotation {
         apStream.setTextStreamData(streamTextData);
         this.apStream = apStream;
     }
-    applyCommonTransformAsync(matrix, undoable = true) {
-        return __awaiter$A(this, void 0, void 0, function* () {
+    applyCommonTransformAsync(matrix_1) {
+        return __awaiter$A(this, arguments, void 0, function* (matrix, undoable = true) {
             const dict = this.getProxy();
             dict.applyRectTransform(matrix);
             const stream = dict.apStream;
@@ -22684,8 +22744,8 @@ class CircleAnnotation extends GeometricAnnotation {
         apStream.setTextStreamData(streamTextData);
         this.apStream = apStream;
     }
-    applyCommonTransformAsync(matrix, undoable = true) {
-        return __awaiter$z(this, void 0, void 0, function* () {
+    applyCommonTransformAsync(matrix_1) {
+        return __awaiter$z(this, arguments, void 0, function* (matrix, undoable = true) {
             const dict = this.getProxy();
             dict.applyRectTransform(matrix);
             const stream = dict.apStream;
@@ -22982,9 +23042,9 @@ class PolygonAnnotation extends PolyAnnotation {
         apStream.setTextStreamData(streamTextData);
         this.apStream = apStream;
     }
-    applyCommonTransformAsync(matrix, undoable = true) {
-        var _a, _b, _c, _d;
-        return __awaiter$x(this, void 0, void 0, function* () {
+    applyCommonTransformAsync(matrix_1) {
+        return __awaiter$x(this, arguments, void 0, function* (matrix, undoable = true) {
+            var _a, _b, _c, _d;
             const dict = this.getProxy();
             let x;
             let y;
@@ -23250,9 +23310,9 @@ class PolylineAnnotation extends PolyAnnotation {
         apStream.setTextStreamData(streamTextData);
         this.apStream = apStream;
     }
-    applyCommonTransformAsync(matrix, undoable = true) {
-        var _a, _b, _c, _d;
-        return __awaiter$w(this, void 0, void 0, function* () {
+    applyCommonTransformAsync(matrix_1) {
+        return __awaiter$w(this, arguments, void 0, function* (matrix, undoable = true) {
+            var _a, _b, _c, _d;
             const dict = this.getProxy();
             let x;
             let y;
@@ -23557,11 +23617,11 @@ class LineAnnotation extends GeometricAnnotation {
             strokeDashGap: (_l = (_k = this.BS) === null || _k === void 0 ? void 0 : _k.D) !== null && _l !== void 0 ? _l : [3, 0],
         };
     }
-    setTextContentAsync(text, undoable = true) {
+    setTextContentAsync(text_1) {
         const _super = Object.create(null, {
             setTextContentAsync: { get: () => super.setTextContentAsync }
         });
-        return __awaiter$v(this, void 0, void 0, function* () {
+        return __awaiter$v(this, arguments, void 0, function* (text, undoable = true) {
             yield _super.setTextContentAsync.call(this, text, undoable);
             yield this.updateStreamAsync();
         });
@@ -23570,8 +23630,8 @@ class LineAnnotation extends GeometricAnnotation {
         const _super = Object.create(null, {
             parsePropsAsync: { get: () => super.parsePropsAsync }
         });
-        var _a;
         return __awaiter$v(this, void 0, void 0, function* () {
+            var _a;
             yield _super.parsePropsAsync.call(this, parseInfo);
             const { parser, bounds } = parseInfo;
             const start = bounds.contentStart || bounds.start;
@@ -23684,8 +23744,8 @@ class LineAnnotation extends GeometricAnnotation {
             }
         });
     }
-    applyCommonTransformAsync(matrix, undoable = true) {
-        return __awaiter$v(this, void 0, void 0, function* () {
+    applyCommonTransformAsync(matrix_1) {
+        return __awaiter$v(this, arguments, void 0, function* (matrix, undoable = true) {
             const dict = this.getProxy();
             const [x1, y1, x2, y2] = dict.L;
             const start = new Vec2(x1, y1).applyMat3(matrix);
@@ -23853,8 +23913,8 @@ class LineAnnotation extends GeometricAnnotation {
         });
     }
     generateApStreamAsync() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         return __awaiter$v(this, void 0, void 0, function* () {
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
             if (!this.L) {
                 return;
             }
@@ -25058,11 +25118,11 @@ class FreeTextAnnotation extends MarkupAnnotation {
             calloutEndingType: this.LE,
         };
     }
-    setTextContentAsync(text, undoable = true) {
+    setTextContentAsync(text_1) {
         const _super = Object.create(null, {
             setTextContentAsync: { get: () => super.setTextContentAsync }
         });
-        return __awaiter$p(this, void 0, void 0, function* () {
+        return __awaiter$p(this, arguments, void 0, function* (text, undoable = true) {
             yield _super.setTextContentAsync.call(this, text, undoable);
             yield this.updateStreamAsync(null);
         });
@@ -25071,8 +25131,8 @@ class FreeTextAnnotation extends MarkupAnnotation {
         const _super = Object.create(null, {
             parsePropsAsync: { get: () => super.parsePropsAsync }
         });
-        var _a;
         return __awaiter$p(this, void 0, void 0, function* () {
+            var _a;
             yield _super.parsePropsAsync.call(this, parseInfo);
             const { parser, bounds } = parseInfo;
             const start = bounds.contentStart || bounds.start;
@@ -25324,8 +25384,8 @@ class FreeTextAnnotation extends MarkupAnnotation {
         });
     }
     generateApStreamAsync(pPoints) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         return __awaiter$p(this, void 0, void 0, function* () {
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
             if (!pPoints) {
                 throw new Error("No key annotation point coordinates passed");
             }
@@ -25375,8 +25435,8 @@ class FreeTextAnnotation extends MarkupAnnotation {
             this.apStream = apStream;
         });
     }
-    updateStreamAsync(points, undoable = true) {
-        return __awaiter$p(this, void 0, void 0, function* () {
+    updateStreamAsync(points_1) {
+        return __awaiter$p(this, arguments, void 0, function* (points, undoable = true) {
             const dict = this.getProxy();
             const oldPoints = dict.pointsPageCS;
             yield dict.generateApStreamAsync(points || oldPoints);
@@ -25800,8 +25860,8 @@ class DocumentService {
             return annotations || [];
         });
     }
-    serializeAnnotationsAsync(addedOnly = false) {
-        return __awaiter$n(this, void 0, void 0, function* () {
+    serializeAnnotationsAsync() {
+        return __awaiter$n(this, arguments, void 0, function* (addedOnly = false) {
             const result = [];
             const annotationMap = yield this.getSupportedAnnotationMapAsync();
             annotationMap.forEach((v, k) => {
@@ -25896,8 +25956,8 @@ class DocumentService {
         return (_b = (_a = this._selectedAnnotation) === null || _a === void 0 ? void 0 : _a.Contents) === null || _b === void 0 ? void 0 : _b.literal;
     }
     setSelectedAnnotationTextContentAsync(text) {
-        var _a;
         return __awaiter$n(this, void 0, void 0, function* () {
+            var _a;
             yield ((_a = this._selectedAnnotation) === null || _a === void 0 ? void 0 : _a.setTextContentAsync(text));
         });
     }
@@ -25925,8 +25985,8 @@ class DocumentService {
         });
     }
     initAsync() {
-        var _a;
         return __awaiter$n(this, void 0, void 0, function* () {
+            var _a;
             this._docParser = (_a = BgDataParser.tryGetParser(this._data.slice())) !== null && _a !== void 0 ? _a : SyncDataParser.tryGetParser(this._data);
             yield this.parseXrefsAsync();
             yield this.parseEncryptionAsync();
@@ -26113,8 +26173,8 @@ class DocumentService {
         });
     }
     parseSupportedAnnotationsAsync() {
-        var _a;
         return __awaiter$n(this, void 0, void 0, function* () {
+            var _a;
             this.checkAuthentication();
             if (!this._catalog) {
                 yield this.parsePageTreeAsync();
@@ -26236,8 +26296,8 @@ class PageAnnotationView {
         this._docService.eventService.removeListener(annotChangeEvent, this.onAnnotationSelectionChange);
     }
     appendAsync(parent) {
-        var _a;
         return __awaiter$m(this, void 0, void 0, function* () {
+            var _a;
             if (this._destroyed) {
                 return;
             }
@@ -26360,8 +26420,8 @@ class PageComparisonView {
         (_a = this._container) === null || _a === void 0 ? void 0 : _a.remove();
     }
     appendAsync(parent, agentPageProxy, scale) {
-        var _a;
         return __awaiter$l(this, void 0, void 0, function* () {
+            var _a;
             this.remove();
             if (this._destroyed || !agentPageProxy) {
                 return;
@@ -26536,8 +26596,8 @@ class PageView {
         this._viewOuterContainer.remove();
         this._pageProxy.cleanup();
     }
-    renderPreviewAsync(force = false) {
-        return __awaiter$k(this, void 0, void 0, function* () {
+    renderPreviewAsync() {
+        return __awaiter$k(this, arguments, void 0, function* (force = false) {
             if (this._renderPromise) {
                 if (force) {
                     this.cancelRenderTask();
@@ -26551,8 +26611,8 @@ class PageView {
             return this._renderPromise;
         });
     }
-    renderViewAsync(force = false) {
-        return __awaiter$k(this, void 0, void 0, function* () {
+    renderViewAsync() {
+        return __awaiter$k(this, arguments, void 0, function* (force = false) {
             if (this._renderPromise) {
                 if (force) {
                     this.cancelRenderTask();
@@ -26735,8 +26795,8 @@ class PageView {
         });
     }
     runViewRenderAsync(force) {
-        var _a;
         return __awaiter$k(this, void 0, void 0, function* () {
+            var _a;
             if (this._destroyed) {
                 return;
             }
@@ -26772,8 +26832,8 @@ class PageView {
         (_b = this._text) === null || _b === void 0 ? void 0 : _b.remove();
     }
     renderCanvasLayerAsync(scale) {
-        var _a;
         return __awaiter$k(this, void 0, void 0, function* () {
+            var _a;
             const canvas = this.createViewCanvas();
             const params = {
                 canvasContext: canvas.getContext("2d"),
@@ -26806,8 +26866,8 @@ class PageView {
         });
     }
     renderComparisonLayerAsync() {
-        var _a;
         return __awaiter$k(this, void 0, void 0, function* () {
+            var _a;
             const comparisonPageProxy = this._docManagerService.getPageProxy("compared", this.index);
             if (!comparisonPageProxy) {
                 (_a = this._comparison) === null || _a === void 0 ? void 0 : _a.remove();
@@ -29066,8 +29126,8 @@ class TextNoteAnnotator extends TextAnnotator {
         this._tempAnnotation = null;
     }
     saveAnnotationAsync() {
-        var _a, _b;
         return __awaiter$7(this, void 0, void 0, function* () {
+            var _a, _b;
             if (!this._pageId || !this._tempAnnotation) {
                 return;
             }
@@ -29623,12 +29683,12 @@ class AnnotatorService {
     }
     constructor(docService, pageService, customStampService, viewer) {
         this._annotationColors = [
-            [0, 0, 0, 0.5],
             [0.804, 0, 0, 0.5],
             [0, 0.804, 0, 0.5],
             [0, 0, 0.804, 0.5],
             [1, 0.5, 0, 0.5],
             [1, 0.2, 1, 0.5],
+            [0, 0, 0, 0.5],
         ];
         this._strokeColor = this._annotationColors[0];
         this._strokeWidth = 3;
@@ -30000,8 +30060,8 @@ class PdfLoaderService {
         (_b = this._docService) === null || _b === void 0 ? void 0 : _b.destroy();
     }
     openPdfAsync(src, fileName, userName, getPasswordAsync, onProgress) {
-        var _a;
         return __awaiter$4(this, void 0, void 0, function* () {
+            var _a;
             yield this.closePdfAsync();
             let data;
             let doc;
@@ -30055,8 +30115,8 @@ class PdfLoaderService {
         });
     }
     closePdfAsync() {
-        var _a, _b;
         return __awaiter$4(this, void 0, void 0, function* () {
+            var _a, _b;
             if (this._pdfLoadingTask) {
                 if (!this._pdfLoadingTask.destroyed) {
                     yield this._pdfLoadingTask.destroy();
@@ -30153,8 +30213,8 @@ class ComparisonService {
         });
     }
     compareImageDataAsync(subjectImageData, agentImageData, options) {
-        var _a;
         return __awaiter$3(this, void 0, void 0, function* () {
+            var _a;
             const threshold = (_a = options === null || options === void 0 ? void 0 : options.threshold) !== null && _a !== void 0 ? _a : 5;
             const offset = (options === null || options === void 0 ? void 0 : options.offset) || [0, 0];
             if (!subjectImageData) {
@@ -30225,8 +30285,8 @@ class ComparisonService {
             aabbs.push([cxmin, cymin, cxmax, cymax]);
         }
     }
-    compareImageDataDbscanAsync(subjectImageData, agentImageData, threshold = 10) {
-        return __awaiter$3(this, void 0, void 0, function* () {
+    compareImageDataDbscanAsync(subjectImageData_1, agentImageData_1) {
+        return __awaiter$3(this, arguments, void 0, function* (subjectImageData, agentImageData, threshold = 10) {
             if (!subjectImageData) {
                 return [];
             }
@@ -31057,6 +31117,7 @@ class TsPdfViewer {
             });
             if (event.detail.saveable) {
                 this._mainContainer.classList.add(event.detail.annotatorType + "-annotator-data-saveable");
+                this.annotatorSave();
             }
             if (event.detail.undoable) {
                 this._mainContainer.classList.add(event.detail.annotatorType + "-annotator-data-undoable");
@@ -31093,11 +31154,14 @@ class TsPdfViewer {
             const t = clientY - rectY;
             const r = width - l;
             const b = height - t;
-            if (Math.min(l, r, t, b) > 150) {
-                this.hidePanels();
-            }
-            else {
-                this.showPanels();
+            if (this._autoHidePanels === true) {
+                console.log("HIDING PANELS: " + this._autoHidePanels);
+                if (Math.min(l, r, t, b) > 150) {
+                    this.hidePanels();
+                }
+                else {
+                    this.showPanels();
+                }
             }
         };
         this.onPdfLoadingProgress = (progressData) => {
@@ -31110,10 +31174,10 @@ class TsPdfViewer {
             var _d;
             if (e.detail.type === "main") {
                 if (e.detail.action === "open") {
-                    this.setMode();
+                    this.setMode("annotation");
                     yield this.refreshPagesAsync();
                     this._annotatorService = new AnnotatorService(this._docService, this._pageService, this._customStampsService, this._viewer);
-                    this.setAnnotationMode("select");
+                    this.setAnnotationMode("pen");
                     this._mainContainer.classList.remove("disabled");
                 }
                 else if (e.detail.action === "close") {
@@ -31247,6 +31311,10 @@ class TsPdfViewer {
                         this.setMode("comparison");
                     }
                     break;
+                case "Delete":
+                    event.preventDefault();
+                    this.onAnnotationDeleteButtonClick();
+                    break;
                 case "ArrowLeft":
                     event.preventDefault();
                     this.moveToPrevPage();
@@ -31312,6 +31380,7 @@ class TsPdfViewer {
         GlobalWorkerOptions.workerSrc = options.workerSource;
         this._userName = options.userName || "Guest";
         this._fileButtons = options.fileButtons || [];
+        this._viewControlButtons = options.viewControlButtons || ["all"];
         this._fileOpenAction = options.fileOpenAction;
         this._fileSaveAction = options.fileSaveAction;
         this._fileCloseAction = options.fileCloseAction;
@@ -31324,6 +31393,7 @@ class TsPdfViewer {
         const previewWidth = options.previewWidth || 100;
         const minScale = options.minScale || 0.25;
         const maxScale = options.maxScale || 4;
+        this._autoHidePanels = options.autoHidePanels === undefined ? true : options.autoHidePanels;
         this._shadowRoot = this._outerContainer.attachShadow({ mode: "open" });
         this._shadowRoot.innerHTML = styles + mainHtml;
         this._mainContainer = this._shadowRoot.querySelector("div#main-container");
@@ -31391,8 +31461,8 @@ class TsPdfViewer {
         });
     }
     importAnnotationsAsync(dtos) {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 yield ((_a = this._docService) === null || _a === void 0 ? void 0 : _a.appendSerializedAnnotationsAsync(dtos));
             }
@@ -31402,8 +31472,8 @@ class TsPdfViewer {
         });
     }
     importAnnotationsFromJsonAsync(json) {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const dtos = JSON.parse(json);
                 yield ((_a = this._docService) === null || _a === void 0 ? void 0 : _a.appendSerializedAnnotationsAsync(dtos));
@@ -31414,15 +31484,15 @@ class TsPdfViewer {
         });
     }
     exportAnnotationsAsync() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const dtos = yield ((_a = this._docService) === null || _a === void 0 ? void 0 : _a.serializeAnnotationsAsync(true));
             return dtos;
         });
     }
     exportAnnotationsToJsonAsync() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const dtos = yield ((_a = this._docService) === null || _a === void 0 ? void 0 : _a.serializeAnnotationsAsync(true));
             return JSON.stringify(dtos);
         });
@@ -31453,8 +31523,8 @@ class TsPdfViewer {
         return JSON.stringify(customStamps);
     }
     getCurrentPdfAsync() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const data = yield ((_a = this._docService) === null || _a === void 0 ? void 0 : _a.getDataWithUpdatedAnnotationsAsync());
             if (!(data === null || data === void 0 ? void 0 : data.length)) {
                 return null;
@@ -31477,6 +31547,7 @@ class TsPdfViewer {
             finally {
                 this._spinner.hide();
             }
+            this._viewer.container.scrollTop = 0;
         });
     }
     closeDocAsync(type) {
@@ -31506,31 +31577,63 @@ class TsPdfViewer {
     }
     initViewControls() {
         const paginatorInput = this._shadowRoot.getElementById("paginator-input");
+        const paginatorPrevBtn = this._shadowRoot.querySelector("#paginator-prev");
+        const paginatorNextBtn = this._shadowRoot.querySelector("#paginator-next");
+        const rotateClockwiseBtn = this._shadowRoot.querySelector("#rotate-clockwise");
+        const rotateCounterClockwiseBtn = this._shadowRoot.querySelector("#rotate-counter-clockwise");
+        const previewerBtn = this._shadowRoot.querySelector("#toggle-previewer");
+        const zoomOutBtn = this._shadowRoot.querySelector("#zoom-out");
+        const zoomInBtn = this._shadowRoot.querySelector("#zoom-in");
+        const zoomFitViewer = this._shadowRoot.querySelector("#zoom-fit-viewer");
+        const zoomFitPage = this._shadowRoot.querySelector("#zoom-fit-page");
         paginatorInput.addEventListener("input", this.onPaginatorInput);
         paginatorInput.addEventListener("change", this.onPaginatorChange);
-        this._shadowRoot.querySelector("#paginator-prev")
-            .addEventListener("click", this.onPaginatorPrevClick);
-        this._shadowRoot.querySelector("#paginator-next")
-            .addEventListener("click", this.onPaginatorNextClick);
-        this._shadowRoot.querySelector("#rotate-clockwise")
-            .addEventListener("click", this.onRotateClockwiseClick);
-        this._shadowRoot.querySelector("#rotate-counter-clockwise")
-            .addEventListener("click", this.onRotateCounterClockwiseClick);
-        this._shadowRoot.querySelector("#zoom-out")
-            .addEventListener("click", this.onZoomOutClick);
-        this._shadowRoot.querySelector("#zoom-in")
-            .addEventListener("click", this.onZoomInClick);
-        this._shadowRoot.querySelector("#zoom-fit-viewer")
-            .addEventListener("click", this.onZoomFitViewerClick);
-        this._shadowRoot.querySelector("#zoom-fit-page")
-            .addEventListener("click", this.onZoomFitPageClick);
-        this._shadowRoot.querySelector("#toggle-previewer")
-            .addEventListener("click", this.onPreviewerToggleClick);
+        if (this._viewControlButtons.includes("previewer") ||
+            this._viewControlButtons.includes("all")) {
+            previewerBtn.addEventListener("click", this.onPreviewerToggleClick);
+        }
+        else {
+            previewerBtn.remove();
+        }
+        if (this._viewControlButtons.includes("paginatorButtons") ||
+            this._viewControlButtons.includes("all")) {
+            paginatorPrevBtn.addEventListener("click", this.onPaginatorPrevClick);
+            paginatorNextBtn.addEventListener("click", this.onPaginatorNextClick);
+        }
+        else {
+            paginatorPrevBtn.remove();
+            paginatorNextBtn.remove();
+        }
+        if (this._viewControlButtons.includes("rotation") ||
+            this._viewControlButtons.includes("all")) {
+            rotateClockwiseBtn.addEventListener("click", this.onRotateClockwiseClick);
+            rotateCounterClockwiseBtn.addEventListener("click", this.onRotateCounterClockwiseClick);
+        }
+        else {
+            rotateClockwiseBtn.remove();
+            rotateCounterClockwiseBtn.remove();
+            this._shadowRoot.getElementById("separatorRotator").remove();
+        }
+        if (this._viewControlButtons.includes("zoom") ||
+            this._viewControlButtons.includes("all")) {
+            zoomOutBtn.addEventListener("click", this.onZoomOutClick);
+            zoomInBtn.addEventListener("click", this.onZoomInClick);
+            zoomFitViewer.addEventListener("click", this.onZoomFitViewerClick);
+            zoomFitPage.addEventListener("click", this.onZoomFitPageClick);
+        }
+        else {
+            zoomOutBtn.remove();
+            zoomInBtn.remove();
+            zoomFitViewer.remove();
+            zoomFitPage.remove();
+            this._shadowRoot.getElementById("separatorZoom").remove();
+        }
     }
     initFileButtons() {
         const openButton = this._shadowRoot.querySelector("#button-open-file");
         const saveButton = this._shadowRoot.querySelector("#button-save-file");
         const closeButton = this._shadowRoot.querySelector("#button-close-file");
+        const separator = this._shadowRoot.querySelector("#panel-v-separator-opensaveclose");
         if (this._fileButtons.includes("open")) {
             this._fileInput = this._shadowRoot.getElementById("open-file-input");
             this._fileInput.addEventListener("change", this.onFileInput);
@@ -31550,6 +31653,11 @@ class TsPdfViewer {
         }
         else {
             closeButton.remove();
+        }
+        if (!this._fileButtons.includes("close") &&
+            !this._fileButtons.includes("open") &&
+            !this._fileButtons.includes("save")) {
+            separator.remove();
         }
         const comparableOpenButton = this._shadowRoot.querySelector("#button-command-comparison-open");
         const comparableCloseButton = this._shadowRoot.querySelector("#button-command-comparison-close");
@@ -31578,7 +31686,7 @@ class TsPdfViewer {
                 x.addEventListener("click", this.onViewerModeButtonClick);
             }
             else {
-                x.classList.add("disabled");
+                x.classList.add("abs-hidden");
             }
         });
     }
@@ -31601,12 +31709,20 @@ class TsPdfViewer {
             .addEventListener("click", this.docServiceUndo);
     }
     setMode(mode) {
-        mode = mode || this._modeService.enabledModes[0] || "text";
+        console.trace("Setmode called");
+        mode = mode || this._modeService.enabledModes[0] || "annotation";
         viewerModes.forEach(x => {
             this._mainContainer.classList.remove("mode-" + x);
             this._shadowRoot.querySelector("#button-mode-" + x).classList.remove("on");
         });
-        this.setAnnotationMode("select");
+        console.log(mode);
+        if (mode == "annotation") {
+            console.log("set annotation mode");
+            this.setAnnotationMode("pen");
+        }
+        else {
+            this.setAnnotationMode("select");
+        }
         this._mainContainer.classList.add("mode-" + mode);
         this._shadowRoot.querySelector("#button-mode-" + mode).classList.add("on");
         this._modeService.mode = mode;
@@ -31681,6 +31797,7 @@ class TsPdfViewer {
         });
     }
     togglePreviewer() {
+        console.log("toggle previewer");
         if (this._previewer.hidden) {
             this._mainContainer.classList.remove("hide-previewer");
             this._shadowRoot.querySelector("div#toggle-previewer").classList.add("on");
@@ -31691,6 +31808,9 @@ class TsPdfViewer {
             this._shadowRoot.querySelector("div#toggle-previewer").classList.remove("on");
             this._previewer.hide();
         }
+    }
+    getCurrentPage() {
+        return this._pageService.getCurrentPage().number;
     }
 }
 

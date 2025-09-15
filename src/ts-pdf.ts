@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { GlobalWorkerOptions } from "pdfjs-dist";
+import {GlobalWorkerOptions, OPS} from "pdfjs-dist";
 
 import { clamp } from "mathador";
 import { DomUtils, EventService, Spinner, CustomStampCreationInfo,
@@ -28,7 +28,8 @@ import { Previewer } from "./components/previewer";
 import { annotatorDataChangeEvent, AnnotatorDataChangeEvent, 
   annotatorTypes, 
   TextSelectionChangeEvent, 
-  textSelectionChangeEvent} from "./annotator/annotator"; 
+  textSelectionChangeEvent} from "./annotator/annotator";
+import save = OPS.save; 
 
 declare global {
   interface HTMLElementEventMap {
@@ -38,6 +39,7 @@ declare global {
 
 export type BaseFileButtons = "open" | "close";
 export type FileButtons = BaseFileButtons | "save";
+export type ViewControlButtons = "paginatorButtons" | "rotation" | "previewer" | "zoom" | "all";
 
 export interface TsPdfViewerOptions {
   /**parent container CSS selector */
@@ -85,6 +87,10 @@ export interface TsPdfViewerOptions {
    * action to execute instead of the default file open action
    * f.e. to open a custom dialog that allows the user to select a file from the database
    */
+
+  /**NUFANDK: list of the navigation interaction buttons shown*/
+  viewControlButtons?: ViewControlButtons[];
+  
   fileOpenAction?: () => void;
   /**
    * action to execute instead of the default file download action
@@ -109,6 +115,9 @@ export interface TsPdfViewerOptions {
    * f.e. to discard all the changes made to the file
    */
   comparableFileCloseAction?: () => void;
+  
+  // Setting for hiding or not hiding panels automatically
+  autoHidePanels? : boolean;
 }
 
 export class TsPdfViewer {
@@ -137,6 +146,7 @@ export class TsPdfViewer {
 
   //#region file actions
   private _fileButtons: FileButtons[];
+  private _viewControlButtons: ViewControlButtons[];
   private _comparableFileButtons: BaseFileButtons[];
 
   private _fileInput: HTMLInputElement;
@@ -154,6 +164,7 @@ export class TsPdfViewer {
 
   private _mainContainerRObserver: ResizeObserver;
   private _panelsHidden: boolean;
+  private _autoHidePanels: boolean;
   
   /**common timers */
   private _timers = {    
@@ -182,6 +193,7 @@ export class TsPdfViewer {
 
     this._userName = options.userName || "Guest";
     this._fileButtons = options.fileButtons || [];
+    this._viewControlButtons = options.viewControlButtons || ["all"];
     this._fileOpenAction = options.fileOpenAction;
     this._fileSaveAction = options.fileSaveAction;
     this._fileCloseAction = options.fileCloseAction;
@@ -195,6 +207,7 @@ export class TsPdfViewer {
     const previewWidth = options.previewWidth || 100;
     const minScale = options.minScale || 0.25;
     const maxScale = options.maxScale || 4;
+    this._autoHidePanels = options.autoHidePanels === undefined ? true : options.autoHidePanels;
 
     this._shadowRoot = this._outerContainer.attachShadow({mode: "open"});
     this._shadowRoot.innerHTML = styles + mainHtml;     
@@ -416,7 +429,8 @@ export class TsPdfViewer {
       throw e;
     } finally {
       this._spinner.hide();
-    }    
+    }
+    this._viewer.container.scrollTop = 0;
   }
 
   private async closeDocAsync(type: DocType): Promise<void> {
@@ -447,37 +461,74 @@ export class TsPdfViewer {
   
   /**add event listemers to interface general buttons */
   private initViewControls() {
+
+    //NUFANDK: Added separations of navigation controls for toggling
     const paginatorInput = this._shadowRoot.getElementById("paginator-input") as HTMLInputElement;
+    const paginatorPrevBtn = this._shadowRoot.querySelector("#paginator-prev");
+    const paginatorNextBtn = this._shadowRoot.querySelector("#paginator-next");
+    const rotateClockwiseBtn = this._shadowRoot.querySelector("#rotate-clockwise");
+    const rotateCounterClockwiseBtn = this._shadowRoot.querySelector("#rotate-counter-clockwise");
+    const previewerBtn = this._shadowRoot.querySelector("#toggle-previewer");
+    const zoomOutBtn = this._shadowRoot.querySelector("#zoom-out");
+    const zoomInBtn = this._shadowRoot.querySelector("#zoom-in");
+    const zoomFitViewer = this._shadowRoot.querySelector("#zoom-fit-viewer");
+    const zoomFitPage = this._shadowRoot.querySelector("#zoom-fit-page");
+    
     paginatorInput.addEventListener("input", this.onPaginatorInput);
-    paginatorInput.addEventListener("change", this.onPaginatorChange);    
-    this._shadowRoot.querySelector("#paginator-prev")
-      .addEventListener("click", this.onPaginatorPrevClick);
-    this._shadowRoot.querySelector("#paginator-next")
-      .addEventListener("click", this.onPaginatorNextClick);
+    paginatorInput.addEventListener("change", this.onPaginatorChange);
 
-    this._shadowRoot.querySelector("#rotate-clockwise")
-      .addEventListener("click", this.onRotateClockwiseClick);
-    this._shadowRoot.querySelector("#rotate-counter-clockwise")
-      .addEventListener("click", this.onRotateCounterClockwiseClick);
+    
+    if (this._viewControlButtons.includes("previewer") ||
+        this._viewControlButtons.includes("all"))
+    {
+      previewerBtn.addEventListener("click", this.onPreviewerToggleClick);
+    } else {
+      previewerBtn.remove();
+    }
+    
+    if (this._viewControlButtons.includes("paginatorButtons") ||
+        this._viewControlButtons.includes("all"))
+    {
+      paginatorPrevBtn.addEventListener("click", this.onPaginatorPrevClick);
+      paginatorNextBtn.addEventListener("click", this.onPaginatorNextClick);
+    } else {
+      paginatorPrevBtn.remove();
+      paginatorNextBtn.remove();
+    }
 
-    this._shadowRoot.querySelector("#zoom-out")
-      .addEventListener("click", this.onZoomOutClick);
-    this._shadowRoot.querySelector("#zoom-in")
-      .addEventListener("click", this.onZoomInClick);
-    this._shadowRoot.querySelector("#zoom-fit-viewer")
-      .addEventListener("click", this.onZoomFitViewerClick);
-    this._shadowRoot.querySelector("#zoom-fit-page")
-      .addEventListener("click", this.onZoomFitPageClick);
+    if (this._viewControlButtons.includes("rotation") ||
+        this._viewControlButtons.includes("all"))
+    {
+      rotateClockwiseBtn.addEventListener("click", this.onRotateClockwiseClick);
+      rotateCounterClockwiseBtn.addEventListener("click", this.onRotateCounterClockwiseClick);
+    } else {
+      rotateClockwiseBtn.remove();
+      rotateCounterClockwiseBtn.remove();
+      this._shadowRoot.getElementById("separatorRotator").remove();
+    }
 
-    this._shadowRoot.querySelector("#toggle-previewer")
-      .addEventListener("click", this.onPreviewerToggleClick);  
+    if (this._viewControlButtons.includes("zoom") ||
+        this._viewControlButtons.includes("all"))
+    {
+      zoomOutBtn.addEventListener("click", this.onZoomOutClick);
+      zoomInBtn.addEventListener("click", this.onZoomInClick);
+      zoomFitViewer.addEventListener("click", this.onZoomFitViewerClick);
+      zoomFitPage.addEventListener("click", this.onZoomFitPageClick);
+    } else {
+      zoomOutBtn.remove();
+      zoomInBtn.remove();
+      zoomFitViewer.remove();
+      zoomFitPage.remove();
+      this._shadowRoot.getElementById("separatorZoom").remove();
+    }
   }
 
   private initFileButtons() {
     const openButton = this._shadowRoot.querySelector("#button-open-file");
     const saveButton = this._shadowRoot.querySelector("#button-save-file");
     const closeButton = this._shadowRoot.querySelector("#button-close-file");
-
+    const separator = this._shadowRoot.querySelector("#panel-v-separator-opensaveclose");
+    
     if (this._fileButtons.includes("open")) {
       this._fileInput = this._shadowRoot.getElementById("open-file-input") as HTMLInputElement;
       this._fileInput.addEventListener("change", this.onFileInput);
@@ -496,6 +547,14 @@ export class TsPdfViewer {
       closeButton.addEventListener("click", this._fileCloseAction || this.onCloseFileButtonClick);
     } else {
       closeButton.remove();
+    }
+
+    if (
+        !this._fileButtons.includes("close") &&
+        !this._fileButtons.includes("open") &&
+        !this._fileButtons.includes("save"))
+    {
+      separator.remove();
     }
 
     const comparableOpenButton = this._shadowRoot.querySelector("#button-command-comparison-open");
@@ -580,9 +639,10 @@ export class TsPdfViewer {
       if (enabledModes.includes(mode)) {
         x.addEventListener("click", this.onViewerModeButtonClick);
       } else {
-        x.classList.add("disabled");
+        //x.classList.add("disabled");
+        x.classList.add("abs-hidden"); //NUFANDK: Hide disabledModes instead of disable
       }
-    });    
+    });
   }
 
   private initAnnotationButtons() {
@@ -592,12 +652,15 @@ export class TsPdfViewer {
         x.addEventListener("click", this.onAnnotationModeButtonClick);
       });
 
+    //NUFANDK: SKIP FOR NOW.
+    //TODO: Implement toggle
+    //
     // select buttons
     this._shadowRoot.querySelector("#button-annotation-edit-text")
       .addEventListener("click", this.onAnnotationEditTextButtonClick);   
     this._shadowRoot.querySelector("#button-annotation-delete")
       .addEventListener("click", this.onAnnotationDeleteButtonClick); 
-      
+    
     // annotator buttons
     this._shadowRoot.querySelectorAll(".button-annotation-undo")
       .forEach(x => x.addEventListener("click", this.annotatorUndo));
@@ -613,14 +676,22 @@ export class TsPdfViewer {
 
   //#region viewer modes
   private setMode(mode?: ViewerMode) {
-    mode = mode || this._modeService.enabledModes[0] || "text"; // 'text' is the default mode
+    console.trace("Setmode called");
+    mode = mode || this._modeService.enabledModes[0] || "annotation"; // 'text' is the default mode
 
     // disable previous viewer mode
     viewerModes.forEach(x => {
       this._mainContainer.classList.remove("mode-" + x);
       this._shadowRoot.querySelector("#button-mode-" + x).classList.remove("on");
     });
-    this.setAnnotationMode("select");
+    
+    console.log(mode);
+    if (mode == "annotation") {
+      console.log("set annotation mode");
+      this.setAnnotationMode("pen");
+    } else {
+      this.setAnnotationMode("select");
+    }
 
     this._mainContainer.classList.add("mode-" + mode);
     this._shadowRoot.querySelector("#button-mode-" + mode).classList.add("on");
@@ -823,6 +894,10 @@ export class TsPdfViewer {
 
     if (event.detail.saveable) {
       this._mainContainer.classList.add(event.detail.annotatorType + "-annotator-data-saveable");
+      
+      //nufanDK: Added for automatically saving annotations on mouse-up
+      //TODO: Implement timer for only automatically saving after a few seconds of mouse-up. Reset on mouse-down;
+      this.annotatorSave();
     }
     if (event.detail.undoable) {
       this._mainContainer.classList.add(event.detail.annotatorType + "-annotator-data-undoable");
@@ -877,16 +952,20 @@ export class TsPdfViewer {
     const r = width - l;
     const b = height - t;
 
-    if (Math.min(l, r, t, b) > 150) {
-      // hide panels if pointer is far from the container edges
-      this.hidePanels();
-    } else {
-      // show panels otherwise
-      this.showPanels();
+    if (this._autoHidePanels === true)
+    {
+      console.log("HIDING PANELS: " + this._autoHidePanels)
+      if (Math.min(l, r, t, b) > 150) {
+        // hide panels if pointer is far from the container edges
+        this.hidePanels();
+      } else {
+        // show panels otherwise
+        this.showPanels();
+      }
     }
   };
 
-  private hidePanels() {
+  private hidePanels() {    
     if (!this._panelsHidden && !this._timers.hidePanels) {
       this._timers.hidePanels = setTimeout(() => {
         if (!this._docManagerService?.docLoaded) {
@@ -923,7 +1002,7 @@ export class TsPdfViewer {
   private onDocChangeAsync = async (e: DocChangeEvent) => {
     if (e.detail.type === "main") {
       if (e.detail.action === "open") {
-        this.setMode();
+        this.setMode("annotation");
   
         // load pages from the document
         await this.refreshPagesAsync();
@@ -931,7 +1010,7 @@ export class TsPdfViewer {
         // create an annotation builder and set its mode to 'select'
         this._annotatorService = new AnnotatorService(this._docService, 
           this._pageService, this._customStampsService, this._viewer);
-        this.setAnnotationMode("select");
+        this.setAnnotationMode("pen");
     
         this._mainContainer.classList.remove("disabled");        
       } else if (e.detail.action === "close") {        
@@ -986,6 +1065,7 @@ export class TsPdfViewer {
   };
 
   private togglePreviewer() {
+    console.log("toggle previewer");
     if (this._previewer.hidden) {
       this._mainContainer.classList.remove("hide-previewer");
       this._shadowRoot.querySelector("div#toggle-previewer").classList.add("on");
@@ -1098,6 +1178,10 @@ export class TsPdfViewer {
           this.setMode("comparison");
         }
         break;
+      case "Delete":
+        event.preventDefault();
+        this.onAnnotationDeleteButtonClick();
+        break;
       case "ArrowLeft":
         event.preventDefault();
         this.moveToPrevPage();
@@ -1144,6 +1228,11 @@ export class TsPdfViewer {
         return;
     }
   };
+  
+  public getCurrentPage() : number
+  {
+    return this._pageService.getCurrentPage().number;
+  }
   //#endregion
 }
 

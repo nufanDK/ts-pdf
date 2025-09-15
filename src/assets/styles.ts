@@ -11,8 +11,8 @@ export const styles = /*html*/`
   #bottom-panel {
     left: calc(50% - 200px);
     width: 400px;
-  }
-  .compact #bottom-panel {  
+    }
+    .compact #bottom-panel {  
     left: calc(50% - 160px);  
     width: 320px;
   }
@@ -36,10 +36,23 @@ export const styles = /*html*/`
   #paginator-total {
     margin: 4px;
   }
+  
+  .abs-full-size-overlay
+  {
+    border-radius: var(--${appName}-main-border-radius);
+  }
 
   .page-container {
     margin: 10px auto;
   }  
+  
+  .spinner div {
+    border-radius: 20px;
+  }
+  
+  .spinner-container {
+    border-radius: 20px;
+  }
   
   .page-text {
     position: absolute;

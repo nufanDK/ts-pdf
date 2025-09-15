@@ -949,6 +949,7 @@ declare global {
 }
 type BaseFileButtons = "open" | "close";
 type FileButtons = BaseFileButtons | "save";
+type ViewControlButtons = "paginatorButtons" | "rotation" | "previewer" | "zoom" | "all";
 interface TsPdfViewerOptions {
     containerSelector: string;
     workerSource: string;
@@ -962,12 +963,14 @@ interface TsPdfViewerOptions {
     maxScale?: number;
     disabledModes?: ViewerMode[];
     fileButtons?: FileButtons[];
+    viewControlButtons?: ViewControlButtons[];
     fileOpenAction?: () => void;
     fileSaveAction?: () => void;
     fileCloseAction?: () => void;
     comparableFileButtons?: BaseFileButtons[];
     comparableFileOpenAction?: () => void;
     comparableFileCloseAction?: () => void;
+    autoHidePanels?: boolean;
 }
 declare class TsPdfViewer {
     private readonly _userName;
@@ -985,6 +988,7 @@ declare class TsPdfViewer {
     private readonly _previewer;
     private _annotatorService;
     private _fileButtons;
+    private _viewControlButtons;
     private _comparableFileButtons;
     private _fileInput;
     private _comparableFileInput;
@@ -997,6 +1001,7 @@ declare class TsPdfViewer {
     private _customStampChangeCallback;
     private _mainContainerRObserver;
     private _panelsHidden;
+    private _autoHidePanels;
     private _timers;
     constructor(options: TsPdfViewerOptions);
     destroy(): void;
@@ -1067,6 +1072,7 @@ declare class TsPdfViewer {
     private togglePreviewer;
     private showPasswordDialogAsync;
     private onViewerKeyDown;
+    getCurrentPage(): number;
 }
 
-export { AnnotEvent, type AnnotEventDetail, type AnnotationDto, type BaseFileButtons, type FileButtons, TsPdfViewer, type ViewerMode as TsPdfViewerMode, type TsPdfViewerOptions };
+export { AnnotEvent, type AnnotEventDetail, type AnnotationDto, type BaseFileButtons, type FileButtons, TsPdfViewer, type ViewerMode as TsPdfViewerMode, type TsPdfViewerOptions, type ViewControlButtons };
