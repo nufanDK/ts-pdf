@@ -433,6 +433,7 @@ export class PageView implements PageInfo {
     // create a new canvas of the needed size and fill it with a rendered page
     const canvas = this.createViewCanvas();
     const params = <RenderParameters>{
+      canvas: canvas,
       canvasContext: canvas.getContext("2d"),
       viewport: this._currentViewport,
       enableWebGL: true,

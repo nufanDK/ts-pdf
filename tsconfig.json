@@ -62,7 +62,7 @@
 
     /* Advanced Options */    
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */    
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "useUnknownInCatchVariables": false,
 
     "noImplicitOverride": true

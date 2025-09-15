@@ -160,6 +160,7 @@ export class PageComparisonView {
 
     // fill it with a rendered page
     const params = <RenderParameters>{
+      canvas: canvas,
       canvasContext: canvasCtx,
       viewport: viewport,
       enableWebGL: true,
