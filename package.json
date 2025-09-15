@@ -2,7 +2,7 @@
 
   "name": "ts-pdf-styleMod",
 
-  "version": "0.11.36",
+  "version": "0.11.37",
 
   "description": "PDF.js-based PDF viewer - modified styling",
 
@@ -155,7 +155,7 @@
     "pako": "^2.1.0",
 
     "pdfjs-dist": "^5.4.149",
-    
+
     "puppeteer": "^22.14.0",
 
     "ts-viewers-core": "^0.0.27",
